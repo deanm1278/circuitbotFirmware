@@ -33,11 +33,9 @@ void stepper_init(struct stepper *s){
 }
 
 void stepper_idle(struct stepper *s){
-	stepper_set_stepping_rate(s, 0);
-	GPIOPinWrite(s->APH_BASE, s->APH_PIN, s->APH_PIN);
-	GPIOPinWrite(s->BPH_BASE, s->BPH_PIN, s->BPH_PIN);
-	DAC082S085_set_value(&s->dac, DAC082S085_DAC1, 90);
-	DAC082S085_set_value(&s->dac, DAC082S085_DAC0, 90);
+	if(s->stepping_rate > 0){
+		stepper_set_stepping_rate(s, 0);
+	}
 }
 
 void stepper_disable(struct stepper *s){

@@ -53,7 +53,7 @@ void DAC082S085_init(struct DAC082S085 *dac, uint32_t SSI_BASE, uint32_t SS_BASE
 void DAC082S085_set_value(struct DAC082S085 *dac, uint8_t DAC_CHANNEL, uint8_t val){
 	if(DAC_CHANNEL == DAC082S085_DAC0 || DAC_CHANNEL == DAC082S085_DAC1){
 
-		uint16_t txbuf = ((DAC_CHANNEL << 12) | (val << 4)) & (0xFFFF);
+		uint16_t txbuf = ((DAC_CHANNEL << 12) | ((val >> 1) << 4)) & (0xFFFF);
 		GPIOPinWrite(dac->SS_BASE, dac->SS_PIN, 0x00);
 		SSIDataPut(dac->SSI_BASE, txbuf);
 		while(SSIBusy(dac->SSI_BASE));
